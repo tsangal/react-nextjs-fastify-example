@@ -1,0 +1,21 @@
+{
+  "name": "@repo/db",
+  "version": "0.0.1",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "migrate": "knex migrate:latest",
+    "migrate:down": "knex migrate:down",
+    "migrate:up": "knex migrate:up",
+    "seed": "knex seed:run"
+  },
+  "dependencies": {
+    "knex": "^3.1.0",
+    "sqlite3": "^5.1.7",
+    "uuid": "^9.0.1"
+  },
+  "exports": {
+    ".": "./src/index.js",
+    "./passwords": "./src/passwords.js"
+  }
+}
