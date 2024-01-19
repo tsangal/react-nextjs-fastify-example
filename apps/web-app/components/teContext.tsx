@@ -14,7 +14,11 @@ export const TailwindElementsContext = createContext<TailwindElementsContext>({
   initElements: defaultFunction,
 })
 
-export function TailwindElementsProvider({ children }: { children: any }) {
+export function TailwindElementsProvider({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   const [tailwindElements, setTailwindElements] = useState<any>()
 
   useEffect(() => {

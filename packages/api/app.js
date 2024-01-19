@@ -14,7 +14,8 @@ const app = async (fastify, opts) => {
   // Place here your custom code!
 
   fastify.register(cors, {
-    origin: '*',
+    origin: true,
+    credentials: true,
   })
 
   fastify.register(fastifyCookie, {

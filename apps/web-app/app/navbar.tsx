@@ -3,11 +3,17 @@
 import Link from 'next/link'
 import { useContext } from 'react'
 
+import { AuthContext } from '@/components/authContext'
 import { TailwindElementsContext } from '@/components/teContext'
 
 export default function Navbar() {
+  const { isLoggedIn, logout } = useContext(AuthContext)!
   const { initElements } = useContext(TailwindElementsContext)
   initElements(({ Collapse }: { Collapse: any }) => ({ Collapse }))
+
+  async function handleLogout(): Promise<void> {
+    await logout()
+  }
 
   return (
     <div className="container mx-auto">
@@ -64,11 +70,11 @@ export default function Navbar() {
               className="list-style-none mr-auto flex flex-col pl-0 lg:mt-1 lg:flex-row"
               data-te-navbar-nav-ref
             >
-              {/* Home link */}
               <li
                 className="my-4 pl-2 lg:my-0 lg:pl-2 lg:pr-1"
                 data-te-nav-item-ref
               >
+                {/* Home link */}
                 <Link
                   className="active disabled:text-black/30 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
                   aria-current="page"
@@ -77,11 +83,22 @@ export default function Navbar() {
                 >
                   Home
                 </Link>
+
+                {/* Administration link */}
+                <Link
+                  className="active disabled:text-black/30 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
+                  aria-current="page"
+                  href="/admin"
+                  data-te-nav-link-ref
+                >
+                  Administration
+                </Link>
               </li>
             </ul>
 
             <div className="relative flex items-center">
-              <Link href="/login">Login</Link>
+              {!isLoggedIn() && <Link href="/login">Login</Link>}
+              {isLoggedIn() && <button onClick={handleLogout}>Logout</button>}
             </div>
           </div>
         </div>
