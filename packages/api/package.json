@@ -22,6 +22,9 @@
     "fastify": "^4.25.2",
     "fastify-cli": "^5.9.0",
     "fastify-plugin": "^4.5.1",
+    "graphql": "^16.8.1",
+    "mercurius": "^13.3.3",
+    "mercurius-auth": "^5.0.0",
     "uuid": "^9.0.1"
   },
   "devDependencies": {

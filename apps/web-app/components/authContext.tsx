@@ -117,9 +117,9 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
       return false
     }
 
-    let tokenExpiryDate
+    let tokenExpiryDate: Date
     try {
-      tokenExpiryDate = new Date(Number(tokenExpiry))
+      tokenExpiryDate = new Date(Number(tokenExpiry) * 1000)
     } catch {
       return false
     }

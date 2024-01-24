@@ -9,7 +9,7 @@ import { TailwindElementsContext } from '@/components/teContext'
 export default function Navbar() {
   const { isLoggedIn, logout } = useContext(AuthContext)!
   const { initElements } = useContext(TailwindElementsContext)
-  initElements(({ Collapse }: { Collapse: any }) => ({ Collapse }))
+  initElements(({ Collapse, Dropdown }: any) => ({ Collapse, Dropdown }))
 
   async function handleLogout(): Promise<void> {
     await logout()
@@ -83,17 +83,69 @@ export default function Navbar() {
                 >
                   Home
                 </Link>
-
-                {/* Administration link */}
-                <Link
-                  className="active disabled:text-black/30 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
-                  aria-current="page"
-                  href="/admin"
-                  data-te-nav-link-ref
-                >
-                  Administration
-                </Link>
               </li>
+              {isLoggedIn() && (
+                <li
+                  className="my-4 pl-2 lg:my-0 lg:pl-2 lg:pr-1"
+                  data-te-nav-item-ref
+                >
+                  <div
+                    className="active disabled:text-black/30 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
+                    data-te-dropdown-ref
+                  >
+                    <a
+                      className="active flex items-center text-neutral-500 transition duration-200 hover:text-neutral-700 hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
+                      href="#"
+                      type="button"
+                      id="dropdownMenuButton2"
+                      data-te-dropdown-toggle-ref
+                      aria-expanded="false"
+                    >
+                      Administration
+                      <span className="ml-2 w-2">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                          className="h-5 w-5"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                            clip-rule="evenodd"
+                          />
+                        </svg>
+                      </span>
+                    </a>
+                    <ul
+                      className="absolute z-[1000] float-left m-0 hidden min-w-max list-none overflow-hidden rounded-lg border-none bg-white bg-clip-padding text-left text-base shadow-lg dark:bg-neutral-700 [&[data-te-dropdown-show]]:block"
+                      aria-labelledby="dropdownMenuButton2"
+                      data-te-dropdown-menu-ref
+                    >
+                      <li>
+                        <Link
+                          className="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-neutral-600"
+                          aria-current="page"
+                          href="/admin"
+                          data-te-dropdown-item-ref
+                        >
+                          Admin Home
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          className="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-neutral-600"
+                          aria-current="page"
+                          href="/admin/users"
+                          data-te-dropdown-item-ref
+                        >
+                          Users
+                        </Link>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+              )}
             </ul>
 
             <div className="relative flex items-center">

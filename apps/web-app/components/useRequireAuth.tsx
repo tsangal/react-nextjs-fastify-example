@@ -7,11 +7,11 @@ import { AuthContext } from '@/components/authContext'
 
 const DEFAULT_REDIRECT_TO = '/login'
 
-export default function RequireAuth({
-  children,
+export default function useRequireAuth({
   redirectTo = DEFAULT_REDIRECT_TO,
-}: RequireAuthProps) {
-  const { state, checkAuth } = useContext(AuthContext)!
+}: RequireAuthProps = {}) {
+  const authContext = useContext(AuthContext)!
+  const { state, checkAuth } = authContext
   const router = useRouter()
 
   useEffect(() => {
@@ -22,10 +22,11 @@ export default function RequireAuth({
     })
   }, [state, checkAuth])
 
-  return state.checkedAuth && state.authed ? <>{children}</> : <></>
+  return {
+    authContext,
+  }
 }
 
 interface RequireAuthProps {
-  children: React.ReactNode
   redirectTo?: string
 }

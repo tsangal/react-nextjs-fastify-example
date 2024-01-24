@@ -67,6 +67,12 @@ export function useAuthApi() {
 
   function getRefreshTokenExpiryCookie(): string | undefined {
     const refreshTokenExpiry = Cookies.get(REFRESH_TOKEN_EXPIRY_COOKIE)
+    console.debug(
+      'refreshTokenExpiry cookie value',
+      refreshTokenExpiry,
+      new Date(Number(refreshTokenExpiry) * 1000)
+    )
+
     return refreshTokenExpiry
   }
 

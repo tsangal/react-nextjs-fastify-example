@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter, Roboto } from 'next/font/google'
-import './globals.css'
 import 'tw-elements-react/dist/css/tw-elements-react.min.css'
+import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
 const roboto = Roboto({ weight: '400', subsets: ['latin'] })
