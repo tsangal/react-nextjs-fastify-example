@@ -1,25 +1,20 @@
 import useGraphQLQuery from '@/components/useGraphQl'
 
-export function useUsersApi() {
+export function useRolesApi() {
   const { postGraphQlQuery } = useGraphQLQuery()
 
-  async function getUsers() {
+  async function getRoles() {
     return postGraphQlQuery({
       query: `
         query {
-          users {
+          roles {
             id
-            username
             name
-            roles {
+            description
+            permissions {
               id
               name
               description
-              permissions {
-                id
-                name
-                description
-              }
             }
             created_at
             updated_at
@@ -29,11 +24,11 @@ export function useUsersApi() {
     })
   }
 
-  async function deleteUser(id: string) {
+  async function deleteRole(id: string) {
     return postGraphQlQuery({
       query: `
-        mutation DeleteUser($id: String!) {
-          deleteUser(id: $id) 
+        mutation DeleteRole($id: String!) {
+          deleteRole(id: $id) 
         }
       `,
       variables: {
@@ -43,7 +38,7 @@ export function useUsersApi() {
   }
 
   return {
-    getUsers,
-    deleteUser,
+    getRoles,
+    deleteRole,
   }
 }

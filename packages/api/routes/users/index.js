@@ -3,17 +3,6 @@ import db from '@repo/db'
 import { verify } from '@repo/db/passwords'
 
 const users = async (fastify, opts) => {
-  fastify.get('/', async function (request, reply) {
-    let users = await db('users').select(
-      'id',
-      'username',
-      'name',
-      'created_at',
-      'updated_at'
-    )
-    return { users }
-  })
-
   fastify.post('/login', async function (request, reply) {
     const body = request.body
     const username = body.username
@@ -44,7 +33,6 @@ const users = async (fastify, opts) => {
 
     const cookieRefreshToken = fastify.jwt.verify(request.cookies.refresh_token)
     const userId = cookieRefreshToken.userId
-    // TODO: check expiration date
 
     // Verify refresh token exists.
     const dbRefreshToken = await db('user_refresh_tokens')
@@ -135,9 +123,33 @@ const users = async (fastify, opts) => {
       updated_at: user.updated_at,
     }
 
+    const roles = await db('user_roles')
+      .join('roles', 'roles.id', '=', 'user_roles.role_id')
+      .where('user_roles.user_id', '=', user.id)
+      .distinct('roles.name')
+    console.debug('*** ROLES FOR ' + user.username, roles)
+
+    const permissions = await db('user_roles')
+      .join(
+        'role_permissions',
+        'role_permissions.role_id',
+        '=',
+        'user_roles.role_id'
+      )
+      .join(
+        'permissions',
+        'permissions.id',
+        '=',
+        'role_permissions.permission_id'
+      )
+      .where('user_roles.user_id', '=', user.id)
+      .distinct('permissions.name')
+
     const authTokenExpiry = getAuthTokenExpiration()
     const authToken = {
       user: clientUser,
+      permissions: permissions.map((permission) => permission.name).sort(),
+      roles: roles.map((role) => role.name).sort(),
       exp: authTokenExpiry,
     }
     const signedAuthToken = fastify.jwt.sign(authToken)
