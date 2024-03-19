@@ -5,7 +5,12 @@
     "build": "turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "kompose:convert": "docker compose --env-file .env.kompose config | kompose convert -f - -o kompose/",
+    "kubectl:apply": "kubectl apply -f kompose/",
+    "kubectl:delete": "kubectl delete -f kompose/api-*.yaml,kompose/web-app-*.yaml",
+    "kubectl:delete:all": "kubectl delete -f kompose/"
+
   },
   "devDependencies": {
     "prettier": "^3.2.2",

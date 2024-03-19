@@ -8,6 +8,7 @@ const roboto = Roboto({ weight: '400', subsets: ['latin'] })
 
 import Navbar from './navbar'
 import Providers from './providers'
+import RuntimeInit from './runtimeInit'
 
 export const metadata: Metadata = {
   title: 'React Next.js example',
@@ -22,10 +23,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} ${roboto.className}`}>
-        <Providers>
-          <Navbar />
-          <div>{children}</div>
-        </Providers>
+        <RuntimeInit>
+          <Providers>
+            <Navbar />
+            <div>{children}</div>
+          </Providers>
+        </RuntimeInit>
       </body>
     </html>
   )

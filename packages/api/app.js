@@ -36,7 +36,12 @@ const app = async (fastify, opts) => {
   // define your routes in one of these
   fastify.register(AutoLoad, {
     dir: join(__dirname, 'routes'),
-    options: Object.assign({}, opts),
+    options: Object.assign(
+      {
+        prefix: process.env.API_ROUTE_PREFIX,
+      },
+      opts
+    ),
   })
 }
 

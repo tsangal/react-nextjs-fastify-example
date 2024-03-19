@@ -1,5 +1,3 @@
-'use client'
-
 import { AuthContextProvider } from '@/components/authContext'
 import { DefaultServicesContextProvider } from '@/components/defaultServices'
 import { TailwindElementsProvider } from '@/components/teContext'

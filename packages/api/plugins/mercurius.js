@@ -115,6 +115,7 @@ export default fp(async (fastify) => {
   fastify.register(mercurius, {
     schema,
     resolvers,
+    prefix: process.env.API_ROUTE_PREFIX
   })
 
   fastify.register(mercuriusAuth, {

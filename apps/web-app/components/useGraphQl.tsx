@@ -1,12 +1,14 @@
 import { useContext } from 'react'
 
 import { AuthContext } from './authContext'
+import { RuntimeConfigContext } from '@/components/runtimeConfig'
 
 export default function useGraphQl() {
+  const { apiBaseUrl } = useContext(RuntimeConfigContext)!
   const { state: authState } = useContext(AuthContext)!
 
   async function postGraphQlQuery(body: GraphQlBody): Promise<GraphQlResult> {
-    const res = await fetch('http://localhost:3001/graphql', {
+    const res = await fetch(`${apiBaseUrl}/graphql`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

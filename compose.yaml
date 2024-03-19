@@ -3,16 +3,29 @@ services:
     build:
       context: .
       target: web-app
+    image: react-nextjs-fastify-example-web-app
     ports:
       - '3000:3000'
+    environment:
+      - API_BASE_URL=${API_BASE_URL}
+    labels:
+      kompose.image-pull-policy: "Never"
+      kompose.service.expose: "${APP_HOSTNAME:-localhost}"
   api:
     build:
       context: .
       target: api
+    image: react-nextjs-fastify-example-api
     ports:
-      - '3001:3001'
+      - '${FASTIFY_PORT:-3001}:${FASTIFY_PORT:-3001}'
+    environment:
+      - API_ROUTE_PREFIX=${API_ROUTE_PREFIX}
+      - FASTIFY_PORT=${FASTIFY_PORT:-3001}
     volumes:
       - db-data:/db
+    labels:
+        kompose.image-pull-policy: "Never"
+        kompose.service.expose: "${API_HOSTNAME:-localhost}${API_ROUTE_PREFIX}"
 
 volumes:
   db-data:

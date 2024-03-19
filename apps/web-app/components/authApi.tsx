@@ -1,8 +1,13 @@
 import Cookies from 'js-cookie'
+import { useContext } from 'react'
+
+import { RuntimeConfigContext } from '@/components/runtimeConfig'
 
 export const AUTH_REFRESH_GRACE_PERIOD_SECONDS = 60
 
 const REFRESH_TOKEN_EXPIRY_COOKIE = 'refresh_token_expiry'
+const apiBaseUrl =
+  process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3001'
 
 export interface User {
   id: string
@@ -18,11 +23,13 @@ export interface AuthResult {
 }
 
 export function useAuthApi() {
+  const { apiBaseUrl } = useContext(RuntimeConfigContext)!
+
   async function postUserPasswordLogin(
     username: string,
     password: string
   ): Promise<AuthResult> {
-    const res = await fetch('http://localhost:3001/users/login', {
+    const res = await fetch(`${apiBaseUrl}/users/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -45,7 +52,7 @@ export function useAuthApi() {
   }
 
   async function refreshAuthToken(): Promise<AuthResult> {
-    const res = await fetch('http://localhost:3001/users/refreshAuth', {
+    const res = await fetch(`${apiBaseUrl}/users/refreshAuth`, {
       method: 'POST',
       credentials: 'include',
     })
@@ -59,7 +66,7 @@ export function useAuthApi() {
 
   async function sendUserLogout(): Promise<void> {
     removeRefreshTokenExpiryCookie()
-    await fetch('http://localhost:3001/users/logout', {
+    await fetch(`${apiBaseUrl}/users/logout`, {
       method: 'POST',
       credentials: 'include',
     })
