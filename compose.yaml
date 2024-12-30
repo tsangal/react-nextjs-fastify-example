@@ -4,6 +4,7 @@ services:
       context: .
       target: web-app
     image: react-nextjs-fastify-example-web-app
+    pull_policy: never
     ports:
       - '3000:3000'
     environment:
@@ -16,6 +17,7 @@ services:
       context: .
       target: api
     image: react-nextjs-fastify-example-api
+    pull_policy: never
     ports:
       - '${FASTIFY_PORT:-3001}:${FASTIFY_PORT:-3001}'
     environment:
