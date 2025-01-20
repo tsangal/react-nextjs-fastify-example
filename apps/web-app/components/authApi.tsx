@@ -6,8 +6,6 @@ import { RuntimeConfigContext } from '@/components/runtimeConfig'
 export const AUTH_REFRESH_GRACE_PERIOD_SECONDS = 60
 
 const REFRESH_TOKEN_EXPIRY_COOKIE = 'refresh_token_expiry'
-const apiBaseUrl =
-  process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3001'
 
 export interface User {
   id: string

@@ -159,6 +159,7 @@ const users = async (fastify, opts) => {
 
     reply.cookie('refresh_token_expiry', refreshToken.exp, {
       expires: new Date(refreshToken.exp * 1000),
+      httpOnly: false,
       path: '/',
     })
     reply.cookie('refresh_token', signedRefreshToken, {

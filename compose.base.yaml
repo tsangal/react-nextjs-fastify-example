@@ -1,0 +1,21 @@
+services:
+  web-app-base:
+    build:
+      context: .
+      target: web-app
+    image: react-nextjs-fastify-example-web-app
+    pull_policy: never
+    environment:
+      - API_BASE_URL=${API_BASE_URL}
+
+  api-base:
+    build:
+      context: .
+      target: api
+    image: react-nextjs-fastify-example-api
+    pull_policy: never
+    environment:
+      - API_ROUTE_PREFIX=${API_ROUTE_PREFIX}
+      - FASTIFY_PORT=${FASTIFY_PORT:-3001}
+    volumes:
+      - db-data:/db

@@ -1,0 +1,31 @@
+include:
+  - compose.volumes.yaml
+
+services:
+  web-app:
+    extends:
+      file: compose.base.yaml
+      service: web-app-base
+    networks:
+      - proxy
+    environment:
+      - API_BASE_URL=${API_BASE_URL:-https://react-nextjs-fastify-example.docker.test/api}
+    labels:
+      traefik.enable: true
+      traefik.http.routers.web-app.rule: 'Host(`${APP_HOSTNAME:-react-nextjs-fastify-example.docker.test}`) && !PathPrefix(`/api`)'
+  api:
+    extends:
+      file: compose.base.yaml
+      service: api-base
+    networks:
+      - proxy
+    environment:
+      - API_ROUTE_PREFIX=${API_ROUTE_PREFIX:-/api}
+    labels:
+      traefik.enable: true
+      traefik.http.routers.api.rule: 'Host(`${API_HOSTNAME:-react-nextjs-fastify-example.docker.test}`) && PathPrefix(`/api`)'
+
+networks:
+  proxy:
+    name: ${DOCKER_PROXY_NETWORK:-proxy}
+    external: true
