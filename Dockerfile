@@ -2,6 +2,7 @@ FROM node:18 AS base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
+ENV COREPACK_DEFAULT_TO_LATEST=0
 
 FROM base AS build
 COPY . /usr/src/app

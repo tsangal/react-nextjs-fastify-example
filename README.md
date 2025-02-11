@@ -24,4 +24,4 @@ docker compose -f compose.traefik.yaml up
 ```
 
 Make sure to use a host name that resolves to your traefik instance,
-then browse to the configured host name (default is https://react-nextjs-fastify-example.docker.test).
+then browse to the configured host name (default is https://react-nextjs-fastify-example.docker.localhost).
