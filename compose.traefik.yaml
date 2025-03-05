@@ -12,7 +12,12 @@ services:
       - API_BASE_URL=${API_BASE_URL:-https://react-nextjs-fastify-example.docker.localhost/api}
     labels:
       traefik.enable: true
-      traefik.http.routers.web-app.rule: Host(`${APP_HOSTNAME:-react-nextjs-fastify-example.docker.localhost}`) && !PathPrefix(`/api`)
+      traefik.http.middlewares.web-app-web-redirectscheme.redirectscheme.scheme: https
+      traefik.http.middlewares.web-app-web-redirectscheme.redirectscheme.permanent: false
+      traefik.http.routers.web-app-web.rule: Host(`${APP_HOSTNAME:-react-nextjs-fastify-example.docker.localhost}`) && !PathPrefix(`/api`)
+      traefik.http.routers.web-app-web.middlewares: web-app-web-redirectscheme
+      traefik.http.routers.web-app-websecure.rule: Host(`${APP_HOSTNAME:-react-nextjs-fastify-example.docker.localhost}`) && !PathPrefix(`/api`)
+      traefik.http.routers.web-app-websecure.tls: true
   api:
     extends:
       file: compose.base.yaml
@@ -23,7 +28,8 @@ services:
       - API_ROUTE_PREFIX=${API_ROUTE_PREFIX:-/api}
     labels:
       traefik.enable: true
-      traefik.http.routers.api.rule: Host(`${API_HOSTNAME:-react-nextjs-fastify-example.docker.localhost}`) && PathPrefix(`/api`)
+      traefik.http.routers.api-websecure.rule: Host(`${API_HOSTNAME:-react-nextjs-fastify-example.docker.localhost}`) && PathPrefix(`/api`)
+      traefik.http.routers.api-websecure.tls: true
 
 networks:
   proxy:
