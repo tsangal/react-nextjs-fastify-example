@@ -1,5 +1,9 @@
 'use client'
 
+import Box from '@mui/material/Box'
+import Container from '@mui/material/Container'
+import Typography from '@mui/material/Typography'
+
 import useRequireAuth from '@/components/useRequireAuth'
 
 export default function AdminPage() {
@@ -8,17 +12,24 @@ export default function AdminPage() {
   const { isLoggedIn, state: authState } = authContext
 
   return (
-    <main className="flex flex-col items-center justify-between p-4">
-      <div>
-        <h1 className="mb-2 mt-0 text-5xl font-medium leading-tight text-primary">
-          Administration
-        </h1>
-      </div>
-      {isLoggedIn() && (
-        <div>
-          <div>Logged in as {authState?.user?.name}</div>
-        </div>
-      )}
-    </main>
+    <Container maxWidth="lg">
+      <Box
+        sx={{
+          my: 4,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <Typography variant="h1">Administration</Typography>
+
+        {isLoggedIn() && (
+          <div>
+            <div>Logged in as {authState?.user?.name}</div>
+          </div>
+        )}
+      </Box>
+    </Container>
   )
 }

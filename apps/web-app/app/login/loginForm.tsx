@@ -1,7 +1,11 @@
 'use client'
 
 import { useContext, useState } from 'react'
-import { TEAlert, TEInput } from 'tw-elements-react'
+import Alert from '@mui/material/Alert'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Stack from '@mui/material/Stack'
+import TextField from '@mui/material/TextField'
 
 import { AuthContext } from '@/components/authContext'
 
@@ -12,7 +16,8 @@ export default function LoginForm() {
   let [password, setPassword] = useState<string>('')
   let [errorMessage, setErrorMessage] = useState<string>('')
 
-  async function handleLogin() {
+  async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault()
     setErrorMessage('')
     try {
       await authContext!.passwordLogin(username, password)
@@ -27,40 +32,38 @@ export default function LoginForm() {
       {authContext.isLoggedIn() && (
         <div>Logged in as {authContext!.state.user!.name}</div>
       )}
-      <form>
+      <Box component="form" onSubmit={handleLogin}>
         {!authContext.isLoggedIn() && (
-          <div>
-            <TEInput
-              className="my-2"
-              type="text"
-              id="usernameInput"
-              label="Username"
-              onChange={(e) => setUsername(e.target.value)}
-            ></TEInput>
-            <TEInput
-              className="my-2"
-              type="password"
-              id="passwordInput"
-              label="Password"
-              onChange={(e) => setPassword(e.target.value)}
-            ></TEInput>
-            <button
-              type="button"
-              className="inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
-              onClick={handleLogin}
-            >
-              Login
-            </button>
-            <div className="my-3">
+          <Stack spacing={2} sx={{ alignItems: 'center' }}>
+            <div>
+              <TextField
+                id="usernameInput"
+                type="text"
+                label="Username"
+                onChange={(e) => setUsername(e.target.value)}
+              ></TextField>
+            </div>
+            <div>
+              <TextField
+                id="passwordInput"
+                type="password"
+                label="Password"
+                onChange={(e) => setPassword(e.target.value)}
+              ></TextField>
+            </div>
+            <div>
+              <Button type="submit" variant="contained">
+                Login
+              </Button>
+            </div>
+            <div>
               {errorMessage.length > 0 && (
-                <TEAlert staticAlert open={true} color="bg-danger-100">
-                  {errorMessage}
-                </TEAlert>
+                <Alert severity="error">{errorMessage}</Alert>
               )}
             </div>
-          </div>
+          </Stack>
         )}
-      </form>
+      </Box>
     </>
   )
 }

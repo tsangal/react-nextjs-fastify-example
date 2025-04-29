@@ -1,12 +1,14 @@
 import type { Metadata } from 'next'
 import { Inter, Roboto } from 'next/font/google'
-import 'tw-elements-react/dist/css/tw-elements-react.min.css'
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter'
 import './globals.css'
+import { StyledEngineProvider } from '@mui/material/styles'
+
 
 const inter = Inter({ subsets: ['latin'] })
 const roboto = Roboto({ weight: '400', subsets: ['latin'] })
 
-import Navbar from './navbar'
+import AppNavbar from './navbar'
 import Providers from './providers'
 import RuntimeInit from './runtimeInit'
 
@@ -23,12 +25,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} ${roboto.className}`}>
-        <RuntimeInit>
-          <Providers>
-            <Navbar />
-            <div>{children}</div>
-          </Providers>
-        </RuntimeInit>
+        <AppRouterCacheProvider>
+          <StyledEngineProvider>
+            <RuntimeInit>
+              <Providers>
+                <AppNavbar />
+                <div>{children}</div>
+              </Providers>
+            </RuntimeInit>
+          </StyledEngineProvider>
+        </AppRouterCacheProvider>
       </body>
     </html>
   )

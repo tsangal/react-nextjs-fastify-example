@@ -1,6 +1,5 @@
 import { AuthContextProvider } from '@/components/authContext'
 import { DefaultServicesContextProvider } from '@/components/defaultServices'
-import { TailwindElementsProvider } from '@/components/teContext'
 import { ServiceRegistryContextProvider } from '@/components/serviceRegistry'
 
 export default function Providers({ children }: { children: any }) {
@@ -8,9 +7,7 @@ export default function Providers({ children }: { children: any }) {
     <>
       <ServiceRegistryContextProvider>
         <DefaultServicesContextProvider>
-          <AuthContextProvider>
-            <TailwindElementsProvider>{children}</TailwindElementsProvider>
-          </AuthContextProvider>
+          <AuthContextProvider>{children}</AuthContextProvider>
         </DefaultServicesContextProvider>
       </ServiceRegistryContextProvider>
     </>

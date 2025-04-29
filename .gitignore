@@ -39,3 +39,5 @@ yarn-error.log*
 # Kompose config files
 /.env.kompose
 /kompose/
+
+mise.toml
