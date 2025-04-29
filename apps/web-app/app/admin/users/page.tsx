@@ -23,11 +23,15 @@ export default function UsersPage() {
   const [users, setUsers] = useState<Array<any> | null>()
   const { getUsers, deleteUser } = useUsersApi()
 
-  useEffect(() => {
-    if (authContext.isLoggedIn()) {
-      loadUsers()
-    }
-  }, [authContext])
+  useEffect(
+    () => {
+      if (authContext.isLoggedIn()) {
+        loadUsers()
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [authContext]
+  )
 
   async function loadUsers() {
     return getUsers()

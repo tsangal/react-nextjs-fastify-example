@@ -20,7 +20,7 @@ export default function useRequireAuth({
         router.push(redirectTo || DEFAULT_REDIRECT_TO)
       }
     })
-  }, [state, checkAuth])
+  }, [state, checkAuth, redirectTo, router])
 
   return {
     authContext,

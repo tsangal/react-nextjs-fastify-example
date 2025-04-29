@@ -1,6 +1,6 @@
 'use client'
 
-import { Reducer, createContext, useContext, useReducer, useState } from 'react'
+import { createContext, useContext, useReducer } from 'react'
 
 import { ServiceRegistryContext } from '@/components/serviceRegistry'
 import type { AuthResult, User } from '@/components/authApi'
@@ -50,10 +50,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     authTokenExpiry: null,
     refreshTokenExpiry: authApi.getRefreshTokenExpiryCookie(),
   }
-  const [state, dispatch] = useReducer<Reducer<AuthState, AuthReducerAction>>(
-    reducer,
-    initialState
-  )
+  const [state, dispatch] = useReducer(reducer, initialState)
 
   function reducer(state: AuthState, action: AuthReducerAction): AuthState {
     switch (action.type) {

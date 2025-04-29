@@ -12,12 +12,12 @@ export function DefaultServicesContextProvider({
   initDefaultServices = true,
 }: DefaultServicesContextProviderProps) {
   const { registerService } = useContext(ServiceRegistryContext)!
+  const authApi = useAuthApi()
 
   const value: Record<string, any> = {}
 
   if (initDefaultServices) {
-    value.authApi = useAuthApi()
-
+    value.authApi = authApi
     registerService('authApi', value.authApi)
   }
 

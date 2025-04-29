@@ -23,11 +23,15 @@ export default function PermissionsPage() {
   const [permissions, setPermissions] = useState<Array<any> | null>()
   const { getPermissions, deletePermission } = usePermissionsApi()
 
-  useEffect(() => {
-    if (authContext.isLoggedIn()) {
-      loadPermissions()
-    }
-  }, [authContext])
+  useEffect(
+    () => {
+      if (authContext.isLoggedIn()) {
+        loadPermissions()
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [authContext]
+  )
 
   async function loadPermissions() {
     return getPermissions()

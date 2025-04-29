@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { use, useEffect, useState } from 'react'
 
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -23,11 +23,15 @@ export default function RolesPage() {
   const [roles, setRoles] = useState<Array<any> | null>()
   const { getRoles, deleteRole } = useRolesApi()
 
-  useEffect(() => {
-    if (authContext.isLoggedIn()) {
-      loadRoles()
-    }
-  }, [authContext])
+  useEffect(
+    () => {
+      if (authContext.isLoggedIn()) {
+        loadRoles()
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [authContext]
+  )
 
   async function loadRoles() {
     return getRoles()
