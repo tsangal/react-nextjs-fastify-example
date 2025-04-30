@@ -2,6 +2,8 @@
 
 import { useContext, useState } from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
 
 import Alert from '@mui/material/Alert'
 import Box from '@mui/material/Box'
@@ -11,10 +13,11 @@ import TextField from '@mui/material/TextField'
 
 import { AuthContext } from '@/components/authContext'
 
-interface IFormInputs {
-  username: string
-  password: string
-}
+const schema = z.object({
+  username: z.string().min(1, { message: 'Required' }),
+  password: z.string().min(1, { message: 'Required' }),
+})
+type IFormInputs = z.infer<typeof schema>
 
 export default function LoginForm() {
   const authContext = useContext(AuthContext)!
@@ -28,6 +31,8 @@ export default function LoginForm() {
       username: '',
       password: '',
     },
+    resolver: zodResolver(schema),
+    mode: 'onTouched',
   })
 
   let [errorMessage, setErrorMessage] = useState<string>('')
@@ -56,7 +61,6 @@ export default function LoginForm() {
             <Controller
               name="username"
               control={formControl}
-              rules={{ required: true }}
               render={({ field }) => (
                 <TextField
                   id="usernameInput"
@@ -64,18 +68,13 @@ export default function LoginForm() {
                   label="Username"
                   {...field}
                   error={!!errors.username}
-                  helperText={
-                    errors.username?.type === 'required'
-                      ? 'Username is required'
-                      : ''
-                  }
+                  helperText={errors.username?.message}
                 ></TextField>
               )}
             />
             <Controller
               name="password"
               control={formControl}
-              rules={{ required: true }}
               render={({ field }) => (
                 <TextField
                   id="passwordInput"
@@ -83,11 +82,7 @@ export default function LoginForm() {
                   label="Password"
                   {...field}
                   error={!!errors.password}
-                  helperText={
-                    errors.password?.type === 'required'
-                      ? 'Password is required'
-                      : ''
-                  }
+                  helperText={errors.password?.message}
                 ></TextField>
               )}
             />
